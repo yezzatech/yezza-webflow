@@ -50,4 +50,3 @@ function getPage(xml, typedPage, country) {
   }, 1500);
 
 }
-alert("sorry")
