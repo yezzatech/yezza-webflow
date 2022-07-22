@@ -1,3 +1,6 @@
+//script for UI interaction
+//Author: Hanif Rodili
+
 // emulate click event for auto open tab
 setTimeout(() => {
   var hash = $.trim(window.location.hash);

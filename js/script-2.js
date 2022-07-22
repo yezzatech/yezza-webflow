@@ -1,3 +1,5 @@
+//script for page routing
+//Author: Hanif Rodili
 function geoip(json) {
   countrycode = json.country_code
   country = json.country

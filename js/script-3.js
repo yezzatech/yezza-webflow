@@ -1,3 +1,5 @@
+//script for populate list of published articles from google sheet
+//Author: Hanif Rodili
 function getArticlesList() {
   var id = '18YYDm8_0uR4qwS9SB7mFlsAPoSyZxR-S7m5-N4yge8g';
   var gid = '0';

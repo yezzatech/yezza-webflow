@@ -1,0 +1,395 @@
+<script>
+  // emulate click event for auto open tab
+  setTimeout(() => {
+    var hash = $.trim(window.location.hash);
+    if (hash) $('.w-tab-menu a[href$="' + hash + '"]').trigger('click');
+  }, 100);
+
+  //console.log(screen.width)
+  document.querySelector("html").classList.remove("w-mod-touch")
+  const dropdown = document.querySelectorAll(".yz-dropdown-menu-2")
+  dropdown.forEach(el => {
+    el.onmouseover = function () { toggleExpandParent(el) }
+    el.onmouseout = function () { toggleExpandParent(el) }
+  });
+
+  function toggleExpandParent(el) {
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+    if (windowWidth > 991) {
+      toggleOpen(el)
+      toggleOpen(el.parentElement)
+    }
+  }
+
+  function toggleOpen(el) {
+    el.classList.toggle("isMenubarOpen")
+  }
+
+  /*const navbtn1 = document.querySelectorAll(".yz-nav-button-1")
+  navbtn1.forEach(el => {
+    if(screen.width > 991){
+      el.onmouseover = function(){toggleOpen(el)}
+      el.onmouseout = function(){toggleOpen(el)}
+    }
+  });*/
+  const navbtn2 = document.querySelectorAll(".yz-nav-button-2")
+  navbtn2.forEach(el => {
+    if (screen.width > 991) {
+      el.onmouseover = function () { toggleOpen(el) }
+      el.onmouseout = function () { toggleOpen(el) }
+    }
+  });
+  const langBtn = document.querySelectorAll(".select-language")
+  langBtn.forEach(el => {
+    el.onclick = function () {
+      document.querySelector(".dialog-container").classList.add("isDialogOpen")
+      document.querySelector("html").classList.add("isDialogOpen")
+    }
+  });
+  const closeDialog = document.querySelector(".close-select-language")
+  closeDialog.onclick = function () {
+    document.querySelector(".dialog-container").classList.remove("isDialogOpen")
+    document.querySelector("html").classList.remove("isDialogOpen")
+  }
+  document.querySelector(".mobile-menu-button").onclick = function () {
+    toggleOpen(document.querySelector(".yz-nav-header")),
+      toggleOpen(document.querySelector(".yz-header-brand")),
+      toggleOpen(document.querySelector("html"))
+  }
+  document.querySelectorAll(".yz-nav-item").forEach(el => {
+    if (screen.width <= 991) {
+      el.onclick = function () {
+        toggleOpen(document.querySelector(".yz-nav-header")),
+          toggleOpen(document.querySelector(".yz-header-brand")),
+          toggleOpen(document.querySelector("html"))
+      }
+    }
+  })
+</script>
+<script>
+  function geoip(json) {
+    countrycode = json.country_code
+    country = json.country
+    console.table({ "Country": country, "Code": countrycode, "-": "-" })
+  }
+</script>
+<script async src="https://get.geojs.io/v1/ip/geo.js"></script>
+<script>
+  var path = window.location.pathname
+  var currentLanguage = path.split("/")[1]
+  const langTextEl = document.querySelector("#language-text")
+  let languageText = ''
+  switch (currentLanguage) {
+    case "en":
+      languageText = "English"
+      break;
+    case "my":
+      languageText = "Bahasa"
+      break;
+    case "id":
+      languageText = "Indonesia"
+      break;
+    default:
+      languageText = "English"
+      break;
+  }
+  langTextEl.innerText = languageText
+  // currentLanguage = currentLanguage.replace('my', 'ms')
+
+  var prefLanguage = localStorage.getItem('preferred_language') || ""
+
+  var countrycode = ''
+  var country = ''
+  var rel_page = ''
+
+  var pageByPassLocalization = [
+    "lp",
+    "404"
+  ]
+  var folderByPassLocalization = [
+    "articles",
+    "artikel"
+  ]
+
+  var availableLang = [
+    "en",
+    "my",
+    "id"
+  ]
+
+  var pathList = path.split("/")
+
+  var isPage = folderByPassLocalization.includes(pathList.slice(-1)[0]);
+
+  var containsFolder = folderByPassLocalization.some(element => {
+    return pathList.includes(element);
+  });
+  var containsPage = pageByPassLocalization.some(element => {
+    return pathList.includes(element);
+  });
+  var isLangAvaiable = availableLang.includes(currentLanguage)
+  if (!containsPage) {
+    document.querySelector("html").setAttribute("lang", currentLanguage.replace('my', 'ms'))
+  }
+
+  function preferredLanguage() {
+    const langSelect = document.querySelectorAll(".language-name")
+    langSelect.forEach(el => {
+      el.onclick = function () {
+        var lang = el.getAttribute("data-language").replace('en', 'x-default')
+        rel_page = document.querySelector("link[hreflang='" + lang + "']").href || ""
+        localStorage.setItem('preferred_language', lang);
+        window.location.replace(rel_page);
+        return
+      }
+    });
+  }
+
+  function redirectPage() {
+
+    if (currentLanguage) {
+      return
+    }
+    if (prefLanguage !== "" && currentLanguage !== prefLanguage) {
+      prefLanguage = prefLanguage.replace('en', 'x-default')
+      rel_page = document.querySelector("link[hreflang='" + prefLanguage + "']").href || ""
+      window.location.replace(rel_page);
+      return
+    }
+    if (countrycode === "MY" && currentLanguage !== "my") {
+      rel_page = document.querySelector("link[hreflang='ms']").href || ""
+      window.location.replace(rel_page);
+      return
+    }
+    if (countrycode === "ID" && currentLanguage !== "id") {
+      rel_page = document.querySelector("link[hreflang='id']").href || ""
+      window.location.replace(rel_page);
+      return
+    }
+    if ((countrycode !== "ID" || countrycode !== "MY") && currentLanguage === "") {
+      rel_page = document.querySelector("link[hreflang='x-default']").href || ""
+      window.location.replace(rel_page);
+      return
+    }
+    if (!isLangAvaiable) {
+      rel_page = document.querySelector("link[hreflang='x-default']").href || ""
+      window.location.replace(rel_page);
+      return
+    }
+  }
+
+  if (!containsPage && !containsFolder && !isPage) {
+    preferredLanguage()
+    setTimeout(() => {
+      redirectPage()
+    }, 300);
+  }
+  setTimeout(() => {
+    //console.log(prefLanguage, currentLanguage, countrycode, country)
+    document.querySelectorAll(".country-text")[0].innerText = country
+    document.querySelectorAll(".country-text")[1].innerText = country
+
+    var suggestCode = countrycode.toLowerCase()
+    suggestCode = suggestCode.replace('en', 'x-default')
+    suggestCode = suggestCode.replace('my', 'ms')
+    const rel_page = document.querySelector("link[hreflang='" + suggestCode + "']").href
+    currentLanguage = currentLanguage.replace('ms', 'my')
+
+    function closeBanner() {
+      document.querySelector("body").style.paddingTop = '0'
+      document.querySelector("#suggest-page-banner").style.top = '-100%'
+      document.querySelector("#main-header").style.marginTop = '0'
+    }
+    document.querySelector(".button-close").onclick = function () { closeBanner() };
+    document.querySelector(".button-close-mobile").onclick = function () { closeBanner() };
+
+    if (currentLanguage !== countrycode.toLowerCase() && prefLanguage === "") {
+      document.querySelector("body").style.paddingTop = '90px'
+      document.querySelector("#suggest-page-banner").style.top = 0
+      document.querySelector("#main-header").style.marginTop = '90px'
+      document.querySelector("#btn-goto").href = rel_page
+    }
+  }, 500);
+</script>
+
+<script>
+  function getArticlesList() {
+    var id = '18YYDm8_0uR4qwS9SB7mFlsAPoSyZxR-S7m5-N4yge8g';
+    var gid = '0';
+    var url = 'https://docs.google.com/spreadsheets/d/' + id + '/gviz/tq?tqx=out:json&tq&gid=' + gid;
+    fetch(url)
+      .then(response => response.text())
+      .then(data => processArticles(data.slice(47, -2)));
+  }
+  function processArticles(jsonString) {
+    var json = JSON.parse(jsonString);
+    var rows = json.table.rows
+    var cols = json.table.cols
+    var articles = {}
+
+    var labels = []
+    cols.forEach((label, index) => {
+      labels.push(label.label)
+    });
+    // console.log(labels);
+
+    rows.reverse().forEach((row, index) => {
+      var data = row.c
+      var language = ""
+      var category = ""
+
+      var article = {}
+      labels.forEach((keyName, index) => {
+        keyName = keyName.toLowerCase().replaceAll(" ", "_")
+        // console.log(keyName);
+        //format date if label == Date Publish
+        if (keyName == "date_publish") {
+          const month = [
+            "January", "February", "March", "April",
+            "May", "June", "July", "August", "September",
+            "October", "November", "December"
+          ]
+          const date = data[index].v.slice(
+            data[index].v.indexOf("(") + 1,
+            data[index].v.lastIndexOf(")"),
+          ).split(',')
+
+          const formattedDate = `${date[2]} ${month[date[1]]} ${date[0]}`
+          // assign formatted date to Date Publish key
+          article[keyName] = formattedDate
+        } else {
+          // assign value to key
+          article[keyName] = data[index].v
+        }
+
+        // get name for language object and category array
+        if (keyName == "language") {
+          language = data[index].v
+        }
+        if (keyName == "category") {
+          category = data[index].v.replaceAll(" ", "-")
+        }
+      });
+
+      // check language object existed or not
+      var isLanguageExist = language in articles
+      if (!isLanguageExist) {
+        // create language object
+        articles[language] = {}
+      }
+
+      // check category array existed or not
+      var isCategoryExist = category in articles[language]
+      if (!isCategoryExist) {
+        // create category array and push article into category
+        articles[language][category] = []
+        articles[language][category].push(article)
+      } else {
+        // push article into category
+        articles[language][category].push(article)
+      }
+    });
+    const articlesStr = JSON.stringify(articles)
+    localStorage.setItem("published_articles", articlesStr);
+  }
+  getArticlesList()
+</script>
+
+<script>
+  let params = (new URL(document.location)).searchParams
+  let register_affiliate = params.get('af_id')
+
+  var expires = "";
+  var date = new Date();
+  var tomorrow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2);
+  expires = "; expires=" + tomorrow.toGMTString() + ";";
+  if (register_affiliate) {
+    document.cookie = "af_id=" + register_affiliate + expires
+  }
+  $(".btn-daftar").click(function () {
+    let af_id = getCookie("af_id")
+
+    let url = "https://app.yezza.io/signup";
+    if (af_id) {
+      url = "https://app.yezza.io/signup?af_id=" + af_id;
+    }
+
+    let phCookie = findCookieByName("ph_");
+    if (phCookie) {
+      window.location.href = "https://bridge.yezza.io?url=" + url + "&key=" + phCookie[0] + "&val=" + phCookie[1];
+    } else {
+      window.location.href = url;
+    }
+  });
+
+  $(".btn-daftar-creators").click(function () {
+    let af_id = getCookie("af_id")
+
+    let url = "https://app.yezza.page/signup";
+    if (af_id) {
+      url = "https://app.yezza.page/signup?af_id=" + af_id;
+    }
+
+    window.location.href = url;
+  });
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return null;
+  }
+
+  function decodeCookie() {
+    var cookieParts = document.cookie.split(";"),
+      cookies = {};
+
+    for (var i = 0; i < cookieParts.length; i++) {
+      var name_value = cookieParts[i],
+        equals_pos = name_value.indexOf("="),
+        name = unescape(name_value.slice(0, equals_pos)).trim(),
+        value = unescape(name_value.slice(equals_pos + 1));
+
+      cookies[":" + name] = value;
+    }
+    return cookies;
+  }
+
+  function findCookieByName(searchWord) {
+    var cookies = decodeCookie();
+
+    for (name in cookies) {
+      var value = cookies[name];
+      if (name.indexOf(":" + searchWord) == 0) {
+        return [name.substring(1), value];
+      }
+    }
+  }
+</script>
+
+<script>
+  !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+  posthog.init('phc_G5dnwLLMkxw3KimsLnQlt8tzmN6yZNL6Zj9x4dHzO9f', { api_host: 'https://posthog.yezza.com' })
+</script>
+
+
+<!-- Hotjar Tracking Code for https://yezza.com -->
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 2964784, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+</script>
