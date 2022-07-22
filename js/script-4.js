@@ -22,7 +22,7 @@ function getPage(xml, typedPage, country) {
   const rel_page = []
   locs.forEach(loc => {
     const url = loc.innerHTML
-    console.log(url)
+    // console.log(url)
     const urlArr = url.split("/")
     const page = urlArr.slice(-1)[0]
     const lang = urlArr[3]
