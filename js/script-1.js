@@ -1,4 +1,5 @@
 //script for UI interaction
+//Insert in root (Site Settings > Custom Code)
 //Author: Hanif Rodili
 
 // emulate click event for auto open tab
