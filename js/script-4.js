@@ -1,5 +1,4 @@
-//script for populate list of pages from yezza.com/sitemap.xml and redirect 404 page to available page in sitemap
-//Insert in 404 page
+//script for 404 page
 //Author: Hanif Rodili
 
 document.querySelector("html").setAttribute("lang", "en")
