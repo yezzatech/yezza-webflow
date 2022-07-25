@@ -104,6 +104,7 @@ function redirectPage() {
     return
   }
   if (!isLangAvaiable) {
+    countrycode = 'en'
     rel_page = document.querySelector("link[hreflang='x-default']").href || ""
     window.location.replace(rel_page);
     return
@@ -135,7 +136,7 @@ setTimeout(() => {
   document.querySelector(".button-close").onclick = function () { closeBanner() };
   document.querySelector(".button-close-mobile").onclick = function () { closeBanner() };
 
-  if (currentLanguage !== countrycode.toLowerCase() && prefLanguage === "") {
+  if (currentLanguage !== countrycode.toLowerCase() && currentLanguage !== prefLanguage) {
     document.querySelector("body").style.paddingTop = '90px'
     document.querySelector("#suggest-page-banner").style.top = 0
     document.querySelector("#main-header").style.marginTop = '90px'
