@@ -44,6 +44,10 @@ function getPage(xml, typedPage, country) {
     window.location.replace(rel_page[0].url);
     console.log("Go to " + rel_page[0].url);
   }
+  if (!isLangAvaiable) {
+    window.location.replace("https://yezza.com/en");
+    return
+  }
   setTimeout(() => {
     document.querySelector("#page-lost").style.display = "block"
     document.querySelector("#please-wait").style.display = "none"

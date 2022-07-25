@@ -103,12 +103,12 @@ function redirectPage() {
     window.location.replace(rel_page);
     return
   }
-  if (!isLangAvaiable) {
-    countrycode = 'en'
-    rel_page = document.querySelector("link[hreflang='x-default']").href || ""
-    window.location.replace(rel_page);
-    return
-  }
+  // if (!isLangAvaiable) {
+  //   countrycode = 'en'
+  //   rel_page = document.querySelector("link[hreflang='x-default']").href || ""
+  //   window.location.replace(rel_page);
+  //   return
+  // }
 }
 
 if (!containsPage && !containsFolder && !isPage) {
