@@ -119,8 +119,8 @@ if (!containsPage && !containsFolder && !isPage) {
 }
 setTimeout(() => {
   //console.log(prefLanguage, currentLanguage, countrycode, country)
-  document.querySelectorAll(".country-text")[0].innerText = country
-  document.querySelectorAll(".country-text")[1].innerText = country
+  // document.querySelectorAll(".country-text")[0].innerText = country
+  // document.querySelectorAll(".country-text")[1].innerText = country
 
   var suggestCode = countrycode.toLowerCase()
   suggestCode = suggestCode.replace('en', 'x-default')
