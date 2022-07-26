@@ -36,9 +36,9 @@ function getPage(xml, typedPage, country) {
         localStorage.setItem('preferred_language', "");
         window.location.replace(path.url);
         console.log("Go to " + path.url);
-        return
       }
     });
+    return
   }
   if (rel_page.length > 0 && rel_page.length === 1) {
     localStorage.setItem('preferred_language', "");
@@ -46,10 +46,10 @@ function getPage(xml, typedPage, country) {
     console.log("Go to " + rel_page[0].url);
     return
   }
-  if (!isLangAvaiable) {
-    window.location.replace("https://yezza.com/en");
-    return
-  }
+  // if (!isLangAvaiable) {
+  //   window.location.replace("https://yezza.com/en");
+  //   return
+  // }
   setTimeout(() => {
     document.querySelector("#page-lost").style.display = "block"
     document.querySelector("#please-wait").style.display = "none"
