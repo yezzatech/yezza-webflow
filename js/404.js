@@ -36,6 +36,7 @@ function getPage(xml, typedPage, country) {
         localStorage.setItem('preferred_language', "");
         window.location.replace(path.url);
         console.log("Go to " + path.url);
+        return
       }
     });
   }
@@ -43,6 +44,7 @@ function getPage(xml, typedPage, country) {
     localStorage.setItem('preferred_language', "");
     window.location.replace(rel_page[0].url);
     console.log("Go to " + rel_page[0].url);
+    return
   }
   if (!isLangAvaiable) {
     window.location.replace("https://yezza.com/en");
