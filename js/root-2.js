@@ -149,7 +149,7 @@ setTimeout(() => {
   document.querySelector(".button-close-mobile").onclick = function () { closeBanner() };
 
 
-  if (currentLanguage !== countrycode.toLowerCase() && currentLanguage !== prefLanguage) {
+  if (currentLanguage !== countrycode.toLowerCase()) {
     const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
     let topValue = 70
     if (windowWidth <= 479) {
