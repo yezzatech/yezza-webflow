@@ -64,6 +64,18 @@ if (!containsPage) {
   document.querySelector("html").setAttribute("lang", currentLanguage.replace('my', 'ms'))
 }
 
+function getPath(href) {
+  var location = document.createElement("a");
+  location.href = href;
+  // IE doesn't populate all link properties when setting .href with a relative URL,
+  // however .href will return an absolute URL which then can be used on itself
+  // to populate these additional fields.
+  if (location.host == "") {
+    location.href = location.href;
+  }
+  return location;
+};
+
 function preferredLanguage() {
   const langSelect = document.querySelectorAll(".language-name")
   langSelect.forEach(el => {
@@ -71,7 +83,7 @@ function preferredLanguage() {
       var lang = el.getAttribute("data-language").replace('en', 'x-default')
       rel_page = document.querySelector("link[hreflang='" + lang + "']").href || ""
       localStorage.setItem('preferred_language', lang);
-      window.location.replace(rel_page);
+      window.location.replace(getPath(rel_page).pathname);
       return
     }
   });
@@ -85,22 +97,22 @@ function redirectPage() {
   if (prefLanguage !== "" && currentLanguage !== prefLanguage) {
     prefLanguage = prefLanguage.replace('en', 'x-default')
     rel_page = document.querySelector("link[hreflang='" + prefLanguage + "']").href || ""
-    window.location.replace(rel_page);
+    window.location.replace(getPath(rel_page).pathname);
     return
   }
   if (countrycode === "MY" && currentLanguage !== "my") {
     rel_page = document.querySelector("link[hreflang='ms']").href || ""
-    window.location.replace(rel_page);
+    window.location.replace(getPath(rel_page).pathname);
     return
   }
   if (countrycode === "ID" && currentLanguage !== "id") {
     rel_page = document.querySelector("link[hreflang='id']").href || ""
-    window.location.replace(rel_page);
+    window.location.replace(getPath(rel_page).pathname);
     return
   }
   if ((countrycode !== "ID" || countrycode !== "MY") && currentLanguage === "") {
     rel_page = document.querySelector("link[hreflang='x-default']").href || ""
-    window.location.replace(rel_page);
+    window.location.replace(getPath(rel_page).pathname);
     return
   }
   // if (!isLangAvaiable) {
@@ -146,6 +158,6 @@ setTimeout(() => {
     document.querySelector("body").style.paddingTop = `${topValue}px`
     document.querySelector("#suggest-page-banner").style.top = 0
     document.querySelector("#main-header").style.marginTop = `${topValue}px`
-    document.querySelector("#btn-goto").href = rel_page
+    document.querySelector("#btn-goto").href = getPath(rel_page).pathname
   }
 }, 500);
