@@ -139,7 +139,7 @@ setTimeout(() => {
 
   if (currentLanguage !== countrycode.toLowerCase() && currentLanguage !== prefLanguage) {
     const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-    const topValue = 70
+    let topValue = 70
     if (windowWidth <= 479) {
       topValue = 125
     }
