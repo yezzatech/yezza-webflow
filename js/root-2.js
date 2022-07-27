@@ -136,10 +136,16 @@ setTimeout(() => {
   document.querySelector(".button-close").onclick = function () { closeBanner() };
   document.querySelector(".button-close-mobile").onclick = function () { closeBanner() };
 
+
   if (currentLanguage !== countrycode.toLowerCase() && currentLanguage !== prefLanguage) {
-    document.querySelector("body").style.paddingTop = '90px'
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+    const topValue = 70
+    if (windowWidth <= 479) {
+      topValue = 125
+    }
+    document.querySelector("body").style.paddingTop = `${topValue}px`
     document.querySelector("#suggest-page-banner").style.top = 0
-    document.querySelector("#main-header").style.marginTop = '90px'
+    document.querySelector("#main-header").style.marginTop = `${topValue}px`
     document.querySelector("#btn-goto").href = rel_page
   }
 }, 500);
