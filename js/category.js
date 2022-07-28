@@ -25,22 +25,22 @@ function appendCategoryArticles() {
       cloneCard.setAttribute("href", `${path}/${article.slug}`)
 
       const thumbnail = cloneCard.querySelector(".article-thumbnail")
-      const authorName = cloneCard.querySelector(".article-author-name")
+      // const authorName = cloneCard.querySelector(".article-author-name")
       const title = cloneCard.querySelector(".article-title")
-      const publishedDate = cloneCard.querySelector(".article-published-date")
+      // const publishedDate = cloneCard.querySelector(".article-published-date")
 
       // set article featured image link
       thumbnail.removeAttribute('srcset')
       thumbnail.setAttribute('src', article.featured_image_link)
 
       // set article author name
-      authorName.innerText = article.author
+      // authorName.innerText = article.author
 
       //set article title
       title.innerText = article.title
 
       // set article published date
-      publishedDate.innerText = article.date_publish.toUpperCase()
+      // publishedDate.innerText = article.date_publish.toUpperCase()
 
       // append new article card
       cloneCard.style.display = "block"
